@@ -1,0 +1,67 @@
+[
+  {
+    "stock": "micro",
+    "share_price": 25,
+    "total_share": 214
+  },
+  {
+    "stock": "amazone",
+    "total_share": 50,
+    "share_price": 126
+  },
+  {
+    "stock": "fb",
+    "total_share": 25,
+    "share_price": 146
+  },
+  {
+    "stock": "paper",
+    "total_share": 20,
+    "share_price": 114
+  },
+  {
+    "stock": "watch",
+    "total_share": 30,
+    "share_price": 189
+  },
+  {
+    "stock": "bag",
+    "total_share": 20,
+    "share_price": 154
+  },
+  {
+    "stock": "light",
+    "total_share": 10,
+    "share_price": 114
+  },
+  {
+    "stock": "fan",
+    "total_share": 19,
+    "share_price": 179
+  },
+  {
+    "stock": "shiwani",
+    "total_share": 20,
+    "share_price": 167
+  },
+  {
+    "stock": "sachin",
+    "total_share": 30,
+    "share_price": 110
+  },
+  {
+    "stock": "deepak",
+    "total_share": 30,
+    "share_price": 154
+  },
+  {
+    "stock": "kalpesh",
+    "total_share": 40,
+    "share_price": 180
+  },
+  {
+    "stock": "akash",
+    "total_share": 20,
+    "share_price": 184
+  }
+]

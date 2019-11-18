@@ -1,0 +1,80 @@
+{ "Rice":[
+
+     {
+      "name": "polished rice",
+      "weight": 10,
+      "price per kg": 60
+     },
+      {"name": "plain rice",
+      "weight": 10,
+      "price per kg": 50
+      },
+      {
+      "name": "black rice",
+      "weight": 15,
+      "price per kg": 40
+     },
+      {
+      "name": "Forbidden rice",
+      "weight": 15,
+      "price per kg": 80
+     },
+      {
+      "name": "brown rice",
+      "weight": 30,
+      "price per kg": 70
+     }
+],
+  "wheat": [
+    {
+      "name": "polished wheat",
+      "weight": 20,
+      "price per kg": 30
+     },
+      {"name": "plain wheat",
+      "weight": 30,
+      "price per kg": 45
+      },
+      {
+      "name": "black wheat",
+      "weight": 40,
+      "price per kg": 50
+     },
+      {
+      "name": "Forbidden wheat",
+      "weight": 5,
+      "price per kg": 25
+     }
+  ],
+    "pulses": [
+    {
+      "name": "polished pulses",
+      "weight":20,
+      "price per kg": 30
+     },
+      {"name": "plain pulses",
+      "weight": 30,
+      "price per kg": 45
+      },
+      {
+      "name": "black pulses",
+      "weight": 15,
+      "price per kg": 50
+     },
+      {
+      "name": "Forbidden pulses",
+      "weight": 30,
+      "price per kg": 25
+     },
+      {
+      "name": "brown pulses",
+      "weight": 35,
+      "price per kg": 60
+     },
+      {
+      "name": "just pulses",
+      "weight": 25,
+      "price per kg": 60
+     }
+]
+}
