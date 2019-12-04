@@ -18,6 +18,7 @@ from django.urls import path,include
 from .views import serverinfo
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('checkserver/', serverinfo , name ='serverinfo'),
-    path('auth/',include('authapp.urls'))
+    path('auth/',include('authapp.urls')),
+    path('checkserver/', serverinfo , name ='serverinfo')
+    
 ]
