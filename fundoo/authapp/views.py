@@ -17,7 +17,15 @@ from rest_framework.status import (
 )
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
-from . models import User
+from .models import User
+# from . models import User
+
+# from djoser import signals, utils
+# from djoser.compat import get_user_email
+# from djoser.conf import settings
+
+# User = get_user_model()
+
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((AllowAny,))
@@ -41,14 +49,20 @@ def login1(request):
 # class UserSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = get_user_model()
-
+# from django.contrib.auth import get_user_model
+# from django.contrib.auth.tokens import default_token_generator
+# from django.utils.timezone import now
+# from rest_framework import generics, status, views, viewsets
+# from rest_framework.decorators import action
+# from rest_framework.exceptions import NotFound
+# from rest_framework.response import Response
 
 from .serializers import SnippetSerializer
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 # @api_view(['POST'])
 @csrf_exempt
-def register(request):
+def user_1(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = SnippetSerializer(data=data)
@@ -56,23 +70,7 @@ def register(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
-#     data=request.DATA
-#     print(data)
-#     return JsonResponse({"da:":"True"})
-#     VALID_USER_FIELDS = [f.name for f in get_user_model()._meta.fields]
-#     DEFAULTS = {
-#         # you can define any defaults that you would like for the user, here
-#     }
-#     serialized = UserSerializer(data=request.DATA)
-#     if serialized.is_valid():
-#         user_data = {field: data for (field, data) in request.DATA.items() if field in VALID_USER_FIELDS}
-#         user_data.update(DEFAULTS)
-#         user = get_user_model().objects.create_user(
-#             **user_data
-#         )
-#         return Response(UserSerializer(instance=user).data, status=status.HTTP_201_CREATED)
-#     else:
-#         return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @csrf_exempt
@@ -101,5 +99,131 @@ def reset(request):
             else:
                 return JsonResponse({"as":False}, status=400)
 
+# class TokenCreateView(utils.ActionViewMixin, generics.GenericAPIView):
+#     """
+#     Use this endpoint to obtain user authentication token.
+#     """
+
+#     serializer_class = settings.SERIALIZERS.token_create
+#     permission_classes = settings.PERMISSIONS.token_create
+
+#     def _action(self, serializer):
+#         token = utils.login_user(self.request, serializer.user)
+#         token_serializer_class = settings.SERIALIZERS.token
+#         return Response(
+#             data=token_serializer_class(token).data, status=status.HTTP_200_OK
+#         )
 
 
+# class TokenDestroyView(views.APIView):
+#     """
+#     Use this endpoint to logout user (remove user authentication token).
+#     """
+
+#     permission_classes = settings.PERMISSIONS.token_destroy
+
+#     def post(self, request):
+#         utils.logout_user(request)
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+#     def permission_denied(self, request, message=None):
+#         if (
+#             settings.HIDE_USERS
+#             and request.user.is_authenticated
+#             and self.action in ["update", "partial_update", "list", "retrieve"]
+#         ):
+#             raise False
+#         super().permission_denied(request, message=message)
+
+#     def get_queryset(self):
+#         user = self.request.user
+#         queryset = super().get_queryset()
+#         if settings.HIDE_USERS and self.action == "list" and not user.is_staff:
+#             queryset = queryset.filter(pk=user.pk)
+#         return queryset
+
+    
+    
+
+#     @action(["post"], detail=False)
+#     def activation(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.user
+#         user.is_active = True
+#         user.save()
+
+#         signals.user_activated.send(
+#             sender=self.__class__, user=user, request=self.request
+#         )
+
+#         if settings.SEND_CONFIRMATION_EMAIL:
+#             context = {"user": user}
+#             to = [get_user_email(user)]
+#             settings.EMAIL.confirmation(self.request, context).send(to)
+
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+#     @action(["post"], detail=False)
+#     def resend_activation(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.get_user(is_active=False)
+
+#         if not settings.SEND_ACTIVATION_EMAIL or not user:
+#             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+#         context = {"user": user}
+#         to = [get_user_email(user)]
+#         settings.EMAIL.activation(self.request, context).send(to)
+
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+#     @action(["post"], detail=False)
+#     def set_password(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+
+#         self.request.user.set_password(serializer.data["new_password"])
+#         self.request.user.save()
+
+#         if settings.LOGOUT_ON_PASSWORD_CHANGE:
+#             utils.logout_user(self.request)
+
+#         if settings.PASSWORD_CHANGED_EMAIL_CONFIRMATION:
+#             context = {"user": self.request.user}
+#             to = [get_user_email(self.request.user)]
+#             settings.EMAIL.password_changed_confirmation(self.request, context).send(to)
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+#     @action(["post"], detail=False)
+#     def reset_password(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.get_user()
+
+#         if user:
+#             context = {"user": user}
+#             to = [get_user_email(user)]
+#             settings.EMAIL.password_reset(self.request, context).send(to)
+
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+#     @action(["post"], detail=False)
+#     def reset_password_confirm(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+
+#         serializer.user.set_password(serializer.data["new_password"])
+#         if hasattr(serializer.user, "last_login"):
+#             serializer.user.last_login = now()
+#         serializer.user.save()
+
+#         if settings.PASSWORD_CHANGED_EMAIL_CONFIRMATION:
+#             context = {"user": serializer.user}
+#             to = [get_user_email(serializer.user)]
+#             settings.EMAIL.password_changed_confirmation(self.request, context).send(to)
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+   
