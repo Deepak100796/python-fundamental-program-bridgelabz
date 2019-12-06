@@ -1,4 +1,8 @@
 from django.shortcuts import render
+# for aws import 
+from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 # Create your views here.
 from rest_framework.decorators import api_view
@@ -71,8 +75,6 @@ def user_1(request):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-
-
 @csrf_exempt
 
 def reset(request):
@@ -98,6 +100,31 @@ def reset(request):
                     return JsonResponse({"passwordChanged":True}, status=200)
             else:
                 return JsonResponse({"as":False}, status=400)
+
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+
+from .models import Upload
+
+
+def image_upload(request):
+    if request.method == 'POST':
+        image_file = request.FILES['image_file']
+        image_type = request.POST['image_type']
+        if settings.USE_S3:
+            upload = Upload(file=image_file)
+            upload.save()
+            image_url = upload.file.url
+        else:
+            fs = FileSystemStorage()
+            filename = fs.save(image_file.name, image_file)
+            image_url = fs.url(filename)
+        # return render(request, 'upload.html', {
+        #     'image_url': image_url
+        # })
+            return JsonResponse({'image_url': image_url},)
+    return JsonResponse({'failed':'failed'})
+
 
 # class TokenCreateView(utils.ActionViewMixin, generics.GenericAPIView):
 #     """
