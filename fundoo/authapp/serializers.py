@@ -17,5 +17,9 @@ class SnippetSerializer(serializers.Serializer):
         print(validated_data)
         return User.objects.create(**validated_data)
 
+# class ImageSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Image
+#         field = ('id', 'image_path' , 'order' , 'version')
 
 
