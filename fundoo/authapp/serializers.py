@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User,File
 
 
 class SnippetSerializer(serializers.Serializer):
@@ -22,4 +22,15 @@ class SnippetSerializer(serializers.Serializer):
 #         model = Image
 #         field = ('id', 'image_path' , 'order' , 'version')
 
+# from rest_framework import serializers
 
+
+# class MyFileSerializer(serializers.ModelSerializer):
+#     class Meta():
+#         model = MyFile
+#         fields = ('file', 'description', 'uploaded_at')
+
+class FileSerializer(serializers.ModelSerializer):
+  class Meta():
+    model = File
+    fields = ('file', 'remark', 'timestamp')

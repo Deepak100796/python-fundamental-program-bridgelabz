@@ -10,9 +10,21 @@ class User(models.Model):
 
 
 
-from django.db import models
+# from django.db import models
 
 
-class Upload(models.Model):
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-    file = models.FileField()
+# from django.db import models
+
+# class Document(models.Model):
+#     # uploaded_at = models.DateTimeField(auto_now_add=True)
+#     uploadind= models.FileField()
+
+
+# class MyFile(models.Model):
+#     file = models.FileField(blank=False, null=False)
+#     description = models.CharField(max_length=50)
+#     uploaded_at = models.DateTimeField(auto_now_add=True)
+class File(models.Model):
+  file = models.FileField(blank=False, null=False)
+  remark = models.CharField(max_length=20)
+  timestamp = models.DateTimeField(auto_now_add=True)
