@@ -21,12 +21,16 @@ from django.conf.urls import url, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+__auther__="deepak Mishra"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/',include('authapp.urls')),
+     path('api/auth/oauth/', include('rest_framework_social_oauth2.urls')),
     path('checkserver/', serverinfo , name ='serverinfo'),
     # path('',include('authapp.urls'))
-    url(r'^file/', include('authapp.urls'))
+    url(r'^file/', include('authapp.urls')),
+   
     
 ]
 
