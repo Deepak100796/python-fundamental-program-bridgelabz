@@ -44,6 +44,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 CSRF_COOKIE_SECURE = True
 INSTALLED_APPS = [
+    'note',
     'authapp',
     'storages',
     'socialAuth',
@@ -254,10 +255,7 @@ SOCIAL_AUTH_PIPELINE = (
 'social_core.pipeline.user.user_details', )
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-JWT_AUTH = {
-    'JWT_PAYLOAD_HANDLER':
-        'users.utils.jwt_payload_handler',
-}
+
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
     'rest_framework_jwt.utils.jwt_encode_handler',
