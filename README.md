@@ -1,9 +1,7 @@
-THIS IS FUNDOO BACKEND APPLICATION AS IF NOW IT IS NOT CPLETED .
-IN THIS PROJECT 3 APP IS THERE 1:USER 2: NOTE 3: SOCIALaUTH
+This Is Fundoo Backend Application As If Now It Is Not Cpleted .
+In This Project 3 App Is There 1:User 2: Note 3: Socialauth
 
-I AM USING MYSQL DATABSE AND DJANGO FOR API JENKINS AND DOCKER , ELASTIC SEARCH 
-
-
+I Am Using Mysql Databse And Django For Api Jenkins And Docker , Elastic Search 
 
 
 
@@ -15,6 +13,8 @@ I AM USING MYSQL DATABSE AND DJANGO FOR API JENKINS AND DOCKER , ELASTIC SEARCH
 
 
 
-THANKING YOU
-__AUTHER__= "DEEPAK MISHRA "
-MOBILE NUMBER: 7080557183
+
+
+Thanking You
+__Auther__= "Deepak Mishra "
+Mobile Number: 7080557183
