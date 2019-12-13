@@ -1,6 +1,7 @@
 
 import os
 import datetime
+import logging
 
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -132,26 +133,42 @@ REST_FRAMEWORK = {
         'rest_framework_social_oauth2.authentication.SocialAuthentication'
 
     ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer'
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10
 }
 
-AUTHENTICATION_BACKENDS = (
+
     # Others auth providers (e.g. Google, OpenId, etc)
-    
+AUTHENTICATION_BACKENDS = (
+        'social_core.backends.github.GithubOAuth2',
+        'social_core.backends.twitter.TwitterOAuth',
+        'social_core.backends.facebook.FacebookOAuth2',
+
+        'django.contrib.auth.backends.ModelBackend',
+        'rest_framework_social_oauth2.backends.DjangoOAuth2',
+        'django.contrib.auth.backends.ModelBackend',
+    )
 
     # Facebook OAuth2
-    'social_core.backends.facebook.FacebookAppOAuth2',
-    'social_core.backends.facebook.FacebookOAuth2',
+    # 'social_core.backends.facebook.FacebookAppOAuth2',
+    # 'social_core.backends.facebook.FacebookOAuth2',
 
-    # django-rest-framework-social-oauth2
-    'rest_framework_social_oauth2.backends.DjangoOAuth2',
+    # # django-rest-framework-social-oauth2
+    # 'rest_framework_social_oauth2.backends.DjangoOAuth2',
 
-    # Django
-    'django.contrib.auth.backends.ModelBackend',
-)
+    # # Django
+    # 'django.contrib.auth.backends.ModelBackend',
+
+
 
 # DJOSER = {
 #     'LOGIN_FIELD':'email'
 # }
+# AUTH_USER_MODEL = "socialAuth.facebookUser"
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
@@ -226,6 +243,20 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+# for github login
+SESSION_COOKIE_SECURE=False
+SOCIAL_AUTH__EMAIL_REQUIRED = True
+SOCIAL_AUTH_GITHUB_KEY = os.environ.get("SOCIAL_AUTH_GITHUB_KEY")
+SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("SOCIAL_AUTH_GITHUB_SECRET")
+# for google login
+for key in ['GOOGLE_OAUTH2_KEY',
+            'GOOGLE_OAUTH2_SECRET',
+            'FACEBOOK_KEY',
+            'FACEBOOK_SECRET']:
+    exec("SOCIAL_AUTH_{key} = os.environ.get('{key}', '')".format(key=key))
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email', 'profile']
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 
 # for facebook configuration
 # Facebook configuration
@@ -243,16 +274,28 @@ SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 
 SOCIAL_AUTH_PIPELINE = (
-'social_core.pipeline.social_auth.social_details',
-'social_core.pipeline.social_auth.social_uid',
-'social_core.pipeline.social_auth.auth_allowed',
-'social_core.pipeline.social_auth.social_user',
-'social_core.pipeline.user.get_username',
-'social_core.pipeline.social_auth.associate_by_email',
-'social_core.pipeline.user.create_user',
-'social_core.pipeline.social_auth.associate_user',
-'social_core.pipeline.social_auth.load_extra_data',
-'social_core.pipeline.user.user_details', )
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',  # <- this line not included by default
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
+# SOCIAL_AUTH_PIPELINE = (
+# 'social_core.pipeline.social_auth.social_details',
+# 'social_core.pipeline.social_auth.social_uid',
+# 'social_core.pipeline.social_auth.auth_allowed',
+# 'social_core.pipeline.social_auth.social_user',
+# 'social_core.pipeline.user.get_username',
+# 'social_core.pipeline.social_auth.associate_by_email',
+# 'social_core.pipeline.user.create_user',
+# 'social_core.pipeline.social_auth.associate_user',
+# 'social_core.pipeline.social_auth.load_extra_data',
+# 'social_core.pipeline.user.user_details', )
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
@@ -291,6 +334,11 @@ JWT_AUTH = {
     'JWT_AUTH_COOKIE': None,
 
 }
+# formatter = logging.Formatter('%(levelname)s :%(asctime)s :%(pathname)s :%(lineno)s :%(thread)d  :%(threadName)s :%('
+#                               'process)d :%(message)s')
+# file_handler = logging.FileHandler(filename='/home/admin1/fundoo.log')
+# file_handler.setFormatter(formatter)
+
 STATIC_URL = '/static/'
 
 # MEDIA_URL =  '/media/'
