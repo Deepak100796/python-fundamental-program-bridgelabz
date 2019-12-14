@@ -22,11 +22,11 @@ from rest_framework.status import (
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from .models import User
-# from . models import User
+from . models import User
 
-# from djoser import signals, utils
-# from djoser.compat import get_user_email
-# from djoser.conf import settings
+from djoser import signals, utils
+from djoser.compat import get_user_email
+from djoser.conf import settings
 
 # User = get_user_model()
 
@@ -53,13 +53,13 @@ def login1(request):
 # class UserSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = get_user_model()
-# from django.contrib.auth import get_user_model
-# from django.contrib.auth.tokens import default_token_generator
-# from django.utils.timezone import now
-# from rest_framework import generics, status, views, viewsets
-# from rest_framework.decorators import action
-# from rest_framework.exceptions import NotFound
-# from rest_framework.response import Response
+from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.timezone import now
+from rest_framework import generics, status, views, viewsets
+from rest_framework.decorators import action
+from rest_framework.exceptions import NotFound
+from rest_framework.response import Response
 
 from .serializers import SnippetSerializer
 from django.http import JsonResponse
@@ -103,15 +103,14 @@ def reset(request):
 
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-
-
-
-
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import FileSerializer
+"""
+this Api for aws sorage
+"""
 class FileView(APIView):
   parser_classes = (MultiPartParser, FormParser)
   def post(self, request, *args, **kwargs):
@@ -137,34 +136,34 @@ class FileView(APIView):
 #             data=token_serializer_class(token).data, status=status.HTTP_200_OK
 #         )
 
+# from djoser.views import views
+class TokenDestroyView(views.APIView):
+    """
+    Use this endpoint to logout user (remove user authentication token).
+    """
 
-# class TokenDestroyView(views.APIView):
-#     """
-#     Use this endpoint to logout user (remove user authentication token).
-#     """
+    # permission_classes = settings.PERMISSIONS.token_destroy
 
-#     permission_classes = settings.PERMISSIONS.token_destroy
-
-#     def post(self, request):
-#         utils.logout_user(request)
-#         return Response(status=status.HTTP_204_NO_CONTENT)
+    def post(self, request):
+        utils.logout_user(request)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-#     def permission_denied(self, request, message=None):
-#         if (
-#             settings.HIDE_USERS
-#             and request.user.is_authenticated
-#             and self.action in ["update", "partial_update", "list", "retrieve"]
-#         ):
-#             raise False
-#         super().permission_denied(request, message=message)
+    # def permission_denied(self, request, message=None):
+    #     if (
+    #         settings.HIDE_USERS
+    #         and request.user.is_authenticated
+    #         and self.action in ["update", "partial_update", "list", "retrieve"]
+    #     ):
+    #         raise False
+    #     super().permission_denied(request, message=message)
 
-#     def get_queryset(self):
-#         user = self.request.user
-#         queryset = super().get_queryset()
-#         if settings.HIDE_USERS and self.action == "list" and not user.is_staff:
-#             queryset = queryset.filter(pk=user.pk)
-#         return queryset
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     queryset = super().get_queryset()
+    #     if settings.HIDE_USERS and self.action == "list" and not user.is_staff:
+    #         queryset = queryset.filter(pk=user.pk)
+    #     return queryset
 
     
     
@@ -203,35 +202,35 @@ class FileView(APIView):
 
 #         return Response(status=status.HTTP_204_NO_CONTENT)
 
-#     @action(["post"], detail=False)
-#     def set_password(self, request, *args, **kwargs):
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
+    @action(["post"], detail=False)
+    def set_password(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-#         self.request.user.set_password(serializer.data["new_password"])
-#         self.request.user.save()
+        self.request.user.set_password(serializer.data["new_password"])
+        self.request.user.save()
 
-#         if settings.LOGOUT_ON_PASSWORD_CHANGE:
-#             utils.logout_user(self.request)
+        if settings.LOGOUT_ON_PASSWORD_CHANGE:
+            utils.logout_user(self.request)
 
-#         if settings.PASSWORD_CHANGED_EMAIL_CONFIRMATION:
-#             context = {"user": self.request.user}
-#             to = [get_user_email(self.request.user)]
-#             settings.EMAIL.password_changed_confirmation(self.request, context).send(to)
-#         return Response(status=status.HTTP_204_NO_CONTENT)
+        if settings.PASSWORD_CHANGED_EMAIL_CONFIRMATION:
+            context = {"user": self.request.user}
+            to = [get_user_email(self.request.user)]
+            settings.EMAIL.password_changed_confirmation(self.request, context).send(to)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-#     @action(["post"], detail=False)
-#     def reset_password(self, request, *args, **kwargs):
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.get_user()
+    @action(["post"], detail=False)
+    def reset_password(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.get_user()
 
-#         if user:
-#             context = {"user": user}
-#             to = [get_user_email(user)]
-#             settings.EMAIL.password_reset(self.request, context).send(to)
+        if user:
+            context = {"user": user}
+            to = [get_user_email(user)]
+            settings.EMAIL.password_reset(self.request, context).send(to)
 
-#         return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 #     @action(["post"], detail=False)
 #     def reset_password_confirm(self, request, *args, **kwargs):
