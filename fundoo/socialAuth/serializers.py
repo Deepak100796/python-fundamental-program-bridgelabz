@@ -1,4 +1,4 @@
-from django.core import serializers
+from rest_framework import serializers
 class SocialSerializer(serializers.Serializer):
     """
     Serializer which accepts an OAuth2 access token and provider.
