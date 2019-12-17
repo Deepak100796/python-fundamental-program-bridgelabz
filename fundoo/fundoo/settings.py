@@ -141,6 +141,10 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
+DB = 0
+PORT = 6379
+SITE_ID = 1
+
 
     # Others auth providers (e.g. Google, OpenId, etc)
 AUTHENTICATION_BACKENDS = (
