@@ -66,7 +66,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 # @api_view(['POST'])
 @csrf_exempt
-def user_1(request):
+def user(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = SnippetSerializer(data=data)
