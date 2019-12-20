@@ -1,16 +1,16 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Notes, Label
-from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
-from .documents import NotesDocument
+# from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
+# from .documents import NotesDocument
 
 
-class NotesDocumentSerializer(DocumentSerializer):
-    class Meta:
-        document = NotesDocument
-        fields = [
-            'note'
-        ]
+# class NotesDocumentSerializer(DocumentSerializer):
+#     class Meta:
+#         document = NotesDocument
+#         fields = [
+#             'note'
+#         ]
 
 
 class LabelSerializer(serializers.ModelSerializer):
