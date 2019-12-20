@@ -25,13 +25,13 @@ __auther__="deepak Mishra"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/',include('authapp.urls')),
-    path("api/",include('note.urls')),
-    path("social/",include('socialAuth.urls')),
-    path('api/auth/', include('rest_framework_social_oauth2.urls')),
-    path('checkserver/', serverinfo , name ='serverinfo'),
-    # path('',include('authapp.urls'))
-    url(r'^file/', include('authapp.urls')),
+    # path('auth/',include('authapp.urls')),
+    path("",include('note.urls')),
+    # path("social/",include('socialAuth.urls')),
+    # path('api/auth/', include('rest_framework_social_oauth2.urls')),
+    # path('checkserver/', serverinfo , name ='serverinfo'),
+    # # path('',include('authapp.urls'))
+    # url(r'^file/', include('authapp.urls')),
    
     
 ]

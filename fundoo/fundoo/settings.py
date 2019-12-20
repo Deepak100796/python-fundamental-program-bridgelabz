@@ -46,10 +46,11 @@ ALLOWED_HOSTS = ['*']
 CSRF_COOKIE_SECURE = True
 INSTALLED_APPS = [
     'note',
+    'djoser',
     'authapp',
     'storages',
     'socialAuth',
-    # for sociallogin
+    #for sociallogin
     'oauth2_provider',
     'social_django',
     'rest_framework_social_oauth2',
@@ -61,8 +62,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'djoser',
-    'jet',
+    
+    # 'jet',
     
 ]
 
@@ -75,6 +76,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	# 'middlewares.label_email_validators.LabelCollaborators',
+    # 'elasticapm.contrib.django.middleware.TracingMiddleware',
 ]
 
 ROOT_URLCONF = 'fundoo.urls'
@@ -99,7 +102,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'fundoo.wsgi.application'
-
+APPEND_SLASH = False
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -128,15 +131,16 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',# <-- And here
 ),
     'DEFAULT_PERMISSIONS_CLASSES':(
+        'rest_framework.permissions.IsAdminUser',
         'rest_framework.permissions.IsAuthenticated',
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
         'rest_framework_social_oauth2.authentication.SocialAuthentication'
 
     ),
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer'
-    ),
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'rest_framework.renderers.JSONRenderer',
+    #     'rest_framework.renderers.BrowsableAPIRenderer'
+    # ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10
 }
