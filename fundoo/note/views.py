@@ -30,7 +30,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser, FileUploadParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics,pagination
 
 # from fundoo.settings import PORT, DB, file_handler, TWITTER_PAGE, logging, SOCIAL_AUTH_GITHUB_KEY, \
     # SOCIAL_AUTH_GITHUB_SECRET
@@ -52,6 +52,7 @@ from .models import Notes, Label
 # logger.addHandler(file_handler)
 from rest_framework import permissions
 from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 # from rest_framework.permissions import IsAuthenticated
 
 # @method_decorator(login_decorator, name='dispatch')
@@ -67,8 +68,9 @@ class NoteRetrive(generics.ListAPIView):
     """
     queryset = Notes.objects.all()
     serializer = NotesSerializer(queryset, many=True)
+    pagination_class = pagination.PageNumberPagination
     # permission_classes = [IsAdminUser]
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     
     def get(self, request):
         """
@@ -88,6 +90,19 @@ class NoteRetrive(generics.ListAPIView):
         
         serializer= NotesSerializer(queryset,many=True)
         return Response(serializer.data,status=200)
+
+class NoteRetriveAuth(generics.ListAPIView):
+    serializer_class = NotesSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self,*args, **kwargs):
+        """
+        This view should return a list of all the purchases
+        for the currently authenticated user.
+        """
+        qs = Notes.objects.all()
+        qs=  qs.filter(User=self.request.user)
+
 
     # parser_classes = (FormParser,FileUploadParser)
     # @staticmethod
