@@ -40,9 +40,10 @@ class Label(models.Model):
 
 # Create your models here.
 class Notes(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=500, blank=True, )
-    note = models.CharField(max_length=500, )
+    note = models.CharField(max_length=500,blank=True)
     image = models.ImageField(max_length=500, blank=True, null=True, upload_to="media")
     is_archive = models.BooleanField("is_archived", default=False)
     is_trashed = models.BooleanField("delete_note", default=False)
